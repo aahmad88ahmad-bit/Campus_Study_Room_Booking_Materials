@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">campus-study-room-booking</a> &gt; <a href="index.source.html" class="el_package">edu.campus</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package edu.campus;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+import java.util.Scanner;
+
+<span class="nc" id="L9">public class Main {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L12">        BookingService service = new BookingService();</span>
+
+<span class="nc" id="L14">        try (Scanner scanner = new Scanner(System.in)) {</span>
+<span class="nc" id="L15">            System.out.println(&quot;Campus Study Room Booking&quot;);</span>
+<span class="nc" id="L16">            System.out.println(&quot;Rooms: A101 (4 students), B202 (8 students)&quot;);</span>
+
+            while (true) {
+<span class="nc" id="L19">                System.out.print(&quot;\nRoom ID (or exit): &quot;);</span>
+<span class="nc" id="L20">                String roomId = scanner.nextLine().trim();</span>
+
+<span class="nc bnc" id="L22" title="All 2 branches missed.">                if (roomId.equalsIgnoreCase(&quot;exit&quot;)) {</span>
+<span class="nc" id="L23">                    break;</span>
+                }
+
+                try {
+<span class="nc" id="L27">                    System.out.print(&quot;Date (YYYY-MM-DD): &quot;);</span>
+<span class="nc" id="L28">                    LocalDate date = LocalDate.parse(scanner.nextLine().trim());</span>
+
+<span class="nc" id="L30">                    System.out.print(&quot;Start time (HH:mm): &quot;);</span>
+<span class="nc" id="L31">                    LocalTime start = LocalTime.parse(scanner.nextLine().trim());</span>
+
+<span class="nc" id="L33">                    System.out.print(&quot;End time (HH:mm): &quot;);</span>
+<span class="nc" id="L34">                    LocalTime end = LocalTime.parse(scanner.nextLine().trim());</span>
+
+<span class="nc" id="L36">                    System.out.print(&quot;Number of students: &quot;);</span>
+<span class="nc" id="L37">                    int groupSize = Integer.parseInt(scanner.nextLine().trim());</span>
+
+<span class="nc" id="L39">                    Booking request = new Booking(</span>
+<span class="nc" id="L40">                            roomId.toUpperCase(Locale.ROOT), date, start, end, groupSize</span>
+                    );
+<span class="nc" id="L42">                    System.out.println(service.book(request));</span>
+
+<span class="nc" id="L44">                } catch (DateTimeParseException e) {</span>
+<span class="nc" id="L45">                    System.out.println(&quot;Invalid date or time. Example: 2026-12-01, 10:30.&quot;);</span>
+<span class="nc" id="L46">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L47">                    System.out.println(&quot;Enter a whole number for the group size.&quot;);</span>
+<span class="nc" id="L48">                }</span>
+<span class="nc" id="L49">            }</span>
+        }
+<span class="nc" id="L51">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

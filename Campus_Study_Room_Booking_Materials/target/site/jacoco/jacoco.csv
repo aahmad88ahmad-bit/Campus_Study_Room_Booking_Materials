@@ -1,0 +1,5 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+campus-study-room-booking,edu.campus,BookingService,0,115,0,22,0,26,0,13,0,2
+campus-study-room-booking,edu.campus,Main,90,0,2,0,27,0,3,0,2,0
+campus-study-room-booking,edu.campus,Booking,0,46,0,8,0,5,0,6,0,2
+campus-study-room-booking,edu.campus,BookingRules,3,49,2,16,1,8,3,11,1,4

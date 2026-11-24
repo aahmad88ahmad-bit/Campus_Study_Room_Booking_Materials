@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">campus-study-room-booking</a> &gt; <a href="index.source.html" class="el_package">edu.campus</a> &gt; <span class="el_source">BookingService.java</span></div><h1>BookingService.java</h1><pre class="source lang-java linenums">package edu.campus;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+<span class="fc" id="L8">public class BookingService {</span>
+
+<span class="fc" id="L10">    private final Map&lt;String, Integer&gt; roomCapacities = Map.of(</span>
+<span class="fc" id="L11">            &quot;A101&quot;, 4,</span>
+<span class="fc" id="L12">            &quot;B202&quot;, 8</span>
+    );
+
+<span class="fc" id="L15">    private final List&lt;Booking&gt; bookings = new ArrayList&lt;&gt;();</span>
+
+    public String book(Booking request) {
+<span class="fc bfc" id="L18" title="All 6 branches covered.">        if (request == null || request.roomId() == null || request.date() == null) {</span>
+<span class="fc" id="L19">            return &quot;Room and date are required.&quot;;</span>
+        }
+
+<span class="fc" id="L22">        Integer capacity = roomCapacities.get(request.roomId());</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (capacity == null) {</span>
+<span class="fc" id="L24">            return &quot;Unknown room.&quot;;</span>
+        }
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (!BookingRules.isWithinOpeningHours(request.start(), request.end())) {</span>
+<span class="fc" id="L28">            return &quot;Enter a time between 09:00 and 18:00 with the end after the start.&quot;;</span>
+        }
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (!request.start().equals(request.start().withSecond(0).withNano(0))</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">                || !request.end().equals(request.end().withSecond(0).withNano(0))) {</span>
+<span class="fc" id="L33">            return &quot;Enter start and end times in whole minutes.&quot;;</span>
+        }
+
+<span class="fc" id="L36">        int minutes = (int) Duration.between(request.start(), request.end()).toMinutes();</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (!BookingRules.isValidDuration(minutes)) {</span>
+<span class="fc" id="L38">            return &quot;Booking duration must be between 30 and 120 minutes.&quot;;</span>
+        }
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (!BookingRules.isValidGroupSize(request.groupSize(), capacity)) {</span>
+<span class="fc" id="L42">            return &quot;Group size must be between 1 and &quot; + capacity + &quot;.&quot;;</span>
+        }
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for (Booking existing : bookings) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (existing.conflictsWith(request)) {</span>
+<span class="fc" id="L47">                return &quot;This room is already booked at that time.&quot;;</span>
+            }
+<span class="fc" id="L49">        }</span>
+
+<span class="fc" id="L51">        bookings.add(request);</span>
+<span class="fc" id="L52">        return &quot;Booking accepted.&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>
